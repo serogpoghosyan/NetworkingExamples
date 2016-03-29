@@ -13,6 +13,8 @@
 		1C18A7DA1CAAD51F00EABA2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C18A7D81CAAD51F00EABA2A /* Main.storyboard */; };
 		1C18A7DC1CAAD51F00EABA2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C18A7DB1CAAD51F00EABA2A /* Assets.xcassets */; };
 		1C18A7DF1CAAD52000EABA2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C18A7DD1CAAD52000EABA2A /* LaunchScreen.storyboard */; };
+		1C18A7EA1CAAD6B600EABA2A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C18A7E71CAAD6B600EABA2A /* MainViewController.m */; };
+		1C18A7EB1CAAD6B600EABA2A /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C18A7E91CAAD6B600EABA2A /* NetworkManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		1C18A7DB1CAAD51F00EABA2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C18A7DE1CAAD52000EABA2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C18A7E01CAAD52000EABA2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C18A7E61CAAD6B600EABA2A /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		1C18A7E71CAAD6B600EABA2A /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		1C18A7E81CAAD6B600EABA2A /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		1C18A7E91CAAD6B600EABA2A /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,10 @@
 		1C18A7CE1CAAD51F00EABA2A /* NetworkingExamples */ = {
 			isa = PBXGroup;
 			children = (
+				1C18A7E61CAAD6B600EABA2A /* MainViewController.h */,
+				1C18A7E71CAAD6B600EABA2A /* MainViewController.m */,
+				1C18A7E81CAAD6B600EABA2A /* NetworkManager.h */,
+				1C18A7E91CAAD6B600EABA2A /* NetworkManager.m */,
 				1C18A7D21CAAD51F00EABA2A /* AppDelegate.h */,
 				1C18A7D31CAAD51F00EABA2A /* AppDelegate.m */,
 				1C18A7D51CAAD51F00EABA2A /* ViewController.h */,
@@ -152,6 +162,8 @@
 				1C18A7D71CAAD51F00EABA2A /* ViewController.m in Sources */,
 				1C18A7D41CAAD51F00EABA2A /* AppDelegate.m in Sources */,
 				1C18A7D11CAAD51F00EABA2A /* main.m in Sources */,
+				1C18A7EB1CAAD6B600EABA2A /* NetworkManager.m in Sources */,
+				1C18A7EA1CAAD6B600EABA2A /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +310,7 @@
 				1C18A7E51CAAD52000EABA2A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
