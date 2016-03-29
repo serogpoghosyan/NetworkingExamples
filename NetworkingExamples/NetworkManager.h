@@ -10,7 +10,9 @@
 
 @interface NetworkManager : NSObject
 
-- (void)loginWithTestUser;
++ (instancetype)sharedManager;
+
+- (void)loginWithTestUser:(void (^)(NSDictionary *info))completionHandler;
 - (void)loadProjects;
 
 @end

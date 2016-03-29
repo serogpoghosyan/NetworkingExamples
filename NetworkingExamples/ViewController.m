@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "NetworkManager.h"
 
 @interface ViewController ()
 
@@ -16,12 +17,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    /*
+    [[NetworkManager sharedManager] loginWithTestUser:^(NSDictionary *info) {
+        // refresh UI
+        // do something with data
+    }];
+     */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedProjects:) name:@"NetworkManagerProjectsNotification" object:nil];
+    [[NetworkManager sharedManager] loadProjects];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)receivedProjects:(NSNotification *)notification {
+    NSDictionary *data = notification.object;
+    NSLog(@"data - %@", data);
+    // refresh UI
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
