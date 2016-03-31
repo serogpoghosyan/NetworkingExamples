@@ -24,8 +24,23 @@
         // do something with data
     }];
      */
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedProjects:) name:@"NetworkManagerProjectsNotification" object:nil];
     [[NetworkManager sharedManager] loadProjects];
+    
+    [self updateData];
+}
+
+- (void)updateData {
+    [[NetworkManager sharedManager] loadUserList:^(NSArray *users, NSError *error) {
+        if (error) {
+            NSLog(@"%@", error);
+        } else {
+            NSLog(@"%@", users);
+            // self.users = users;
+            // [self.tableView reloadData];
+        }
+    }];
 }
 
 - (void)receivedProjects:(NSNotification *)notification {

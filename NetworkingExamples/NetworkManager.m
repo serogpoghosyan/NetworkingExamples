@@ -6,12 +6,16 @@
 //  Copyright © 2016 Workfront. All rights reserved.
 //
 
+
 #import "NetworkManager.h"
+
+typedef void (^NetworkCompletionHandler)(NSArray *, NSError *);
 
 @interface NetworkManager () <NSURLSessionDelegate, NSURLSessionDataDelegate>
 
 @property (nonatomic, strong) NSURLSession *session;
 @property (nonatomic, strong) NSMutableData *data;
+@property (nonatomic, strong) NSMutableDictionary *tasks;
 
 @end
 
@@ -29,8 +33,12 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        [config setTimeoutIntervalForRequest:50];
+        [config setAllowsCellularAccess:YES];
+        self.session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
         self.data = [NSMutableData data];
+        self.tasks = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -72,13 +80,17 @@
     [task resume];
 }
 
+- (void)loadUserList:(void (^)(NSArray *, NSError *))completionHandler {
+    NSURL *url = [NSURL URLWithString:@"http://hub.attask.com/attask/api/v5.0/Project/metadata"];
+    NSURLSessionDataTask *task = [self.session dataTaskWithURL:url];
+    self.tasks[[NSString stringWithFormat:@"%ld", task.taskIdentifier]] = completionHandler;
+    [task resume];
+}
+
 #pragma mark - NSURLSessionDelegate methods
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
     
-    if ([(NSHTTPURLResponse *)response statusCode] == 200) {
-        //
-    }
     completionHandler(NSURLSessionResponseAllow);
 }
 
@@ -89,16 +101,20 @@
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     
-    if (error) {
-        NSLog(@"Connection error - %@", error);
-    } else {
-        NSError *jsonError;
-        NSDictionary *dictionaryData = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&jsonError];
-        NSLog(@"JSON error - %@", jsonError);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"NetworkManagerProjectsNotification" object:dictionaryData];
-        });
+    id result;
+    if (!error) {
+        NSDictionary *dictionaryData = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:nil];
+        result = dictionaryData;
     }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NetworkManagerProjectsNotification" object:result];
+        NSString *key = [NSString stringWithFormat:@"%ld", task.taskIdentifier];
+        NetworkCompletionHandler completionHandler = self.tasks[key];
+        if (completionHandler) {
+            completionHandler(result, error);
+            [self.tasks removeObjectForKey:key];
+        }
+    });
 }
 
 @end
